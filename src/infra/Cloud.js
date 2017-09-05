@@ -1,5 +1,5 @@
 var host = "http://localhost:7000/v1";
-var token_api = "0d7366a1tuyt4e0f0fd2df0161c691779983";
+var token_api = "kajhdlkJASTOKEN";
 
 module.exports = {
   getHost(){

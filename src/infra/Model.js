@@ -4,19 +4,23 @@ var userApp = null;
 var host = "";
 var token_api = "";
 
-
- export default function Model(ent) {
-  this.entidade = "dados";
-  if (ent) {
-    this.entidade = ent;
+export default class Model {
+  constructor(entidade) {
+    this.entidade = "dados";
+    if (entidade) {
+      this.entidade = entidade;
+    }
+    this.status = 1;
+  // console.log(this) 
   }
-  this.status = 1;
 
-  Model.prototype.setMetodoApi = function(metodo, tipo) {
+  setMetodoApi(metodo, tipo) {
     this.metodoApi = metodo ? metodo : "getAll";
     this.metodoTipo = tipo ? tipo : "POST";
   }
-  Model.prototype.save = function(retorno) {
+
+
+  save(retorno) {
     var metodo = "/salvar";
     var url = host + metodo;
     if (this.metodoApi) {
@@ -52,11 +56,15 @@ var token_api = "";
         retorno(this);
       }
     }).catch((error) => {
+      if (retorno) {
+        retorno(this);
+      }
       console.log(this);
       console.log(error)
     })
   }
-  Model.prototype.up = function(obj, entidade) {
+
+  up(obj, entidade) {
     if (entidade) {
       this.entidade = entidade;
     }
@@ -76,9 +84,9 @@ var token_api = "";
       var valor = (this)[nome];
       if (!(this)[nome]) {
         (this)[nome] = obj[nome];
-      } else if (isArray(valor)) {
+      } else if (Model.isArray(valor)) {
         // (this)[nome] = obj[nome] ;
-      } else if (isObject(valor)) {
+      } else if (Model.isObject(valor)) {
         // (this)[nome] = obj[nome] ;
       } else {
         (this)[nome] = obj[nome];
@@ -90,7 +98,7 @@ var token_api = "";
     return this;
   }
 
-  Model.prototype.update = function(data, retorno) {
+  update(data, retorno) {
     if (!data) {
       if (retorno) {
         retorno();
@@ -116,7 +124,7 @@ var token_api = "";
       entidade: this.entidade,
       data: JSON.stringify(saveObject)
     };
- 
+
     var config = {
       method: this.metodoTipo ? this.metodoTipo : 'POST',
       headers: {
@@ -141,7 +149,8 @@ var token_api = "";
     })
   }
 
-  Model.prototype.parse = function(obj, entidade) {
+
+  parse(obj, entidade) {
     if (entidade) {
       this.entidade = entidade;
     }
@@ -163,8 +172,43 @@ var token_api = "";
     return this;
   }
 
-};
 
+  delete(callback) {
+    var metodo = "/delete";
+     
+    var url = host + metodo;
+    if (this.metodoApi) {
+      url = host + "/" + this.metodoApi;
+    }
+    // console.log(url);
+  
+    var send = {
+      entidade: this.entidade,
+      data: JSON.stringify({objectId:this.objectId,_id:this._id})
+    };
+
+    var config = {
+      method: this.metodoTipo ? this.metodoTipo : 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(send)
+    };
+    if (token_api) {
+      config.headers['x-request-id'] = token_api;
+    }
+    fetch(url, config).then((json) => {
+      if (callback) {
+        callback(this);
+      }
+    }).catch((error) => {
+      console.log(this);
+      console.log(error)
+    })
+  }
+
+}
 Model.setHost = function(url) {
   host = url;
 };
@@ -173,37 +217,10 @@ Model.setToken = function(token) {
 };
 
 
-// module.exports.getCurrentUser = function(retorno) {
-//   if (userApp) {
-//     if (retorno) {
-//       retorno(userApp)
-//     }
-//     return userApp;
-//   }
-//   var has = hasUser();
-//   if (has) {
-//     userApp = has
-//     if (retorno) {
-//       retorno(userApp)
-//     }
-//     return userApp;
-//   } else {
-//     return false;
-//   }
-// }
 
-// module.exports.criarCurrentUser = function(data) {
-//   userApp = new Model();
-//   if (data) {
-//     userApp.parse(data);
-//   }
-//   saveUser(data)
-//   userApp.entidade = "user_local";
-//   userApp.key_user = "current_user";
-//   return userApp;
-// }
 
-function setCookie(tag, data) {
+
+Model.setCookie = function(tag, data) {
   try {
     cookie.save(tag, data, {
       path: '/'
@@ -211,11 +228,11 @@ function setCookie(tag, data) {
   } catch (e) {}
 }
 
-function getCookie(tag) {
+Model.getCookie = function(tag) {
   return cookie.load(tag);
 }
 
-function hasUser() {
+Model.hasUser = function() {
   var user = cookie.load('user');
   if (user && user.objectId) {
     return new Model().parse(user, "user_local");
@@ -224,23 +241,23 @@ function hasUser() {
   }
 }
 
-function removerUser() {
+Model.removerUser = function() {
   cookie.save('user', false, {
     path: '/'
   });
 }
 
-function saveUser(user) {
+Model.saveUser = function(user) {
   cookie.save('user', user, {
     path: '/'
   });
 }
 
-function isObject(val) {
+Model.isObject = function(val) {
   return typeof val === "object";
 }
 
-function isArray(object) {
+Model.isArray = function(object) {
   if (object && JSON.stringify(object) == "[]") {
     return true;
   }
@@ -251,4 +268,3 @@ function isArray(object) {
   }
 }
 
-// export default Model;

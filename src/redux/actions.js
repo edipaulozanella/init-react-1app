@@ -1,8 +1,11 @@
 import * as types from "./actionTypes";
+import { Query, Model, Cloud } from "../infra";
 
- 
-export function getCopyDataUI() {
-	return {
-	
-	}
+let globalStore = null;
+export function setStore(store) {
+  globalStore = store;
+}
+
+export function init() {
+
 }

@@ -1,16 +1,19 @@
 import * as types from "./actionTypes";
- 
+
 export default function app(state = {}, action = {}) {
-  state.user = {objectId:1,name:"Ediapulo Zanella"};
- 
- 
   switch (action.type) {
-    case types.GET_ALL_RATES:
+    case types.LOGOUT:
+      delete state.user;
       return state;
 
     default:
-      if (action.types) {
-        state[action.types] = action.value;
+      if (action.type && action.value) {
+        state[action.type] = action.value;
+      } else {
+        var list = Object.keys(action);
+        for (var i = 0; i < list.length; i++) {
+          state[list[i]] = action[list[i]];
+        }
       }
       return state;
   }
