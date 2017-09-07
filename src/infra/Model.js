@@ -1,5 +1,5 @@
 
-import cookie from 'react-cookie';
+import cookie from 'react-cookies';
 var userApp = null;
 var host = "";
 var token_api = "";
@@ -268,3 +268,28 @@ Model.isArray = function(object) {
   }
 }
 
+
+Model.saveCurrentInstalation=function(){
+    instalationApp = Model.getCurrentInstalation();
+  cookie.save('instalationApp', instalationApp, { path: '/' });
+  return instalationApp;
+}
+var instalationApp = null;
+Model.getCurrentInstalation=function(retorno){
+  if (instalationApp) {
+    if (retorno) {
+      retorno(instalationApp);
+    }
+  }else{
+    instalationApp = new Model("instalation_web");
+    var old = cookie.load('instalationApp');
+    if(old){
+      // console.log(old);
+      instalationApp.parse(old);
+    }
+    if (retorno) {
+      retorno(instalationApp);
+    }
+  }
+  return instalationApp;
+}

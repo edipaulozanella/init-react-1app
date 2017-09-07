@@ -10,7 +10,7 @@
     "react": "^15.6.1",
     "react-1app": "^0.1.2",
     "react-color": "^2.13.4",
-    "react-cookie": "^2.0.8",
+    "react-cookies": "^0.1.0",
     "react-dom": "^15.6.1",
     "react-gmaps": "^1.6.0",
     "react-redux": "^5.0.6",
