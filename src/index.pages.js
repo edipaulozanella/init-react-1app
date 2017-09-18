@@ -5,11 +5,15 @@ import { StyleSheet, Navigator } from 'react-1app';
 import Home from "./views/Home";
 
 export default class Navegation extends React.Component {
+    componentDidMount() {
+    this.navigator.history = this.router.history;
+  }
   render() {
     return (
-      <Provider store={this.props.store}>
-        <Router>
-          <Navigator
+      <Provider ref={"pro"} store={this.props.store}>
+        <Router ref={v => (this.router = v)}>
+
+            <Navigator
             actions={this.props.actions}
             store={this.props.store}
             style={{ flex: 1 }}
