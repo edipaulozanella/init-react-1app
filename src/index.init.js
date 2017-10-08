@@ -18,6 +18,7 @@ function mapStateToProps(state) {
       dispatch: store.dispatch
     },
     navigator: state.navigator,
+    navigation:state.navigator,
     data: state
   };
 }
