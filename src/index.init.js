@@ -1,10 +1,11 @@
-import React from 'react'
+import React from "react";
 import { createStore, applyMiddleware } from "redux";
 import reducers from "./redux/reducer";
 import * as actions from "./redux/actions";
 import RegisterScreens from "./index.pages.js";
-import { Query, Model, Cloud } from './infra';
-import { View, Navigator ,File,ImageUpload,Modal} from 'react-1app';
+import { Query, Model, Cloud } from "./infra";
+import { View, Navigator, File, ImageUpload, Modal } from "react-1app";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 var store = createStore(reducers);
 actions.setStore(store);
@@ -14,7 +15,7 @@ function mapStateToProps(state) {
     screenProps: {
       store: store,
       actions: actions,
-      dispatch: store.dispatch,
+      dispatch: store.dispatch
     },
     navigator: state.navigator,
     data: state
@@ -35,7 +36,6 @@ export default class App extends React.Component {
     ImageUpload.setToken(Cloud.getToken());
     // File.setToken(Cloud.setToken());
     //Modal.setCloseButton(false);
-
   }
   componentDidMount() {
     actions.init();
@@ -43,11 +43,16 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={ { paddingTop: 0, flex: 1 } }>
-        <RegisterScreens ref={(v)=>this.registerScreens=v} store={ store }
-          actions={ actions }
-          mapStateToProps={ mapStateToProps }/>
-      </View>
-      );
+      <MuiThemeProvider>
+        <View style={{ paddingTop: 0, flex: 1 }}>
+          <RegisterScreens
+            ref={v => (this.registerScreens = v)}
+            store={store}
+            actions={actions}
+            mapStateToProps={mapStateToProps}
+          />
+        </View>
+      </MuiThemeProvider>
+    );
   }
 }
