@@ -15,9 +15,9 @@ export default class Navegation extends React.Component {
 
             <Navigator
               ref={v => (this.navigator = v)}
-                actions={this.props.actions}
-                store={this.props.store}
-                style={{ flex: 1 }}
+                         actions={this.props.actions}
+                         store={this.props.store}
+                         style={{ flex: 1 }}
           >
             <Route
               exact
