@@ -15,6 +15,7 @@ function mapStateToProps(state) {
     screenProps: {
       store: store,
       actions: actions,
+      navigator: state.navigator,
       dispatch: store.dispatch
     },
     navigator: state.navigator,
