@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 import { connect, Provider } from "react-redux";
-import { StyleSheet, Navigator } from 'react-1app'; 
+import { StyleSheet, Navigator } from 'react-1app';
 import Home from "./views/Home";
 
 export default class Navegation extends React.Component {
@@ -14,9 +14,10 @@ export default class Navegation extends React.Component {
         <Router ref={v => (this.router = v)}>
 
             <Navigator
-            actions={this.props.actions}
-            store={this.props.store}
-            style={{ flex: 1 }}
+              ref={v => (this.navigator = v)}
+                actions={this.props.actions}
+                store={this.props.store}
+                style={{ flex: 1 }}
           >
             <Route
               exact
