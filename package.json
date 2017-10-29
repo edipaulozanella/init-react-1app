@@ -24,6 +24,9 @@
     "redux-router": "^2.1.2"
   },
   "scripts": {
+  	    "copy-static":"cp -rf ./build/static ../api/public/",
+    "copy-html":"cp -rf ./build/index.html ../api/public/index.html",
+    "copy":"npm run copy-static; npm run copy-html",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
