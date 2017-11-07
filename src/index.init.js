@@ -7,6 +7,11 @@ import { Query, Model, Cloud } from "./infra";
 import { View, Navigator, File, ImageUpload, Modal } from "react-1app";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
+var pt =require('moment/locale/pt-br');
+var moment = require("moment");
+moment.locale('pt-br');
+
+
 var store = createStore(reducers);
 actions.setStore(store);
 
