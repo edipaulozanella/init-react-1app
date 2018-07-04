@@ -6,15 +6,11 @@ export default function app(state = {}, action = {}) {
       delete state.user;
       return state;
 
+    case types.LOGIN:
+      state.user = action.user;
+      return state;
+
     default:
-      if (action.type && action.value) {
-        state[action.type] = action.value;
-      } else {
-        var list = Object.keys(action);
-        for (var i = 0; i < list.length; i++) {
-          state[list[i]] = action[list[i]];
-        }
-      }
       return state;
   }
 }

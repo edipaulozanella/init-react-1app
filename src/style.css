@@ -1,0 +1,14 @@
+/*!
+estylo css
+ */
+html, body {
+ overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #EEEEEE;
+    margin: 0px;
+    padding: 0px;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+}

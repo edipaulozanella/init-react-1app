@@ -1,48 +1,39 @@
 import React from "react";
-import { createStore, applyMiddleware } from "redux";
+import { createStore } from "redux";
 import reducers from "./redux/reducer";
 import * as actions from "./redux/actions";
 import RegisterScreens from "./index.pages.js";
-import { Query, Model, Cloud } from "./infra";
-import { View, Navigator, File, ImageUpload, Modal } from "react-1app";
+import { Cloud } from "./infra";
+import { View, ImageUpload, Alert } from "react-1app";
+import Home from "./views/Home";
+
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
-var pt =require('moment/locale/pt-br');
+require("moment/locale/pt-br");
 var moment = require("moment");
-moment.locale('pt-br');
-
+moment.locale("pt-br");
 
 var store = createStore(reducers);
-actions.setStore(store);
 
+var toProps = {
+  screenProps: {
+    store: store,
+    actions: actions
+  }
+};
 function mapStateToProps(state) {
-  return {
-    screenProps: {
-      store: store,
-      actions: actions,
-      navigator: state.navigator,
-      dispatch: store.dispatch
-    },
-    navigator: state.navigator,
-    navigation:state.navigator,
-    data: state
-  };
+  toProps.data = state;
+  return { ...toProps };
 }
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    Model.setHost(Cloud.getHost());
-    Query.setHost(Cloud.getHost());
     ImageUpload.setHost(Cloud.getHost());
     // File.setHost(Cloud.getHost());
-
-    Model.setToken(Cloud.getToken());
-    Query.setToken(Cloud.getToken());
     ImageUpload.setToken(Cloud.getToken());
     // File.setToken(Cloud.setToken());
-    //Modal.setCloseButton(false);
   }
   componentDidMount() {
     actions.init();
@@ -52,6 +43,7 @@ export default class App extends React.Component {
     return (
       <MuiThemeProvider>
         <View style={{ paddingTop: 0, flex: 1 }}>
+          <Alert />
           <RegisterScreens
             ref={v => (this.registerScreens = v)}
             store={store}

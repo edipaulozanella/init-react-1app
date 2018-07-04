@@ -5,12 +5,12 @@ import DashHeader from "./dash/Header.js";
 import DashPainel from "./dash/Painel.js";
 import DashMenu from "./dash/Menu.js";
 import AcessoLogin from "./acesso/Login.js";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.props.screenProps.history = props.history;
   }
 
   componentDidMount() {
@@ -27,12 +27,22 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.content}>
-        <DashPainel
-          style={styles.fragment2}
+        <DashMenu
+          style={styles.fragment}
           screenProps={this.props.screenProps}
           navigation={this.props.navigation}
           activity={this}
         />
+        <View style={styles.view2}>
+          <DashHeader
+            style={styles.fragment3}
+            screenProps={this.props.screenProps}
+            navigation={this.props.navigation}
+            history={this.props.history}
+            activity={this}
+          />
+           
+        </View>
       </View>
     );
   }
