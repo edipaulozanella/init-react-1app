@@ -13,6 +13,7 @@ import Membros from "./views/user/Membros.js";
 import Login from "./views/acesso/Login";
 import DashHeader from "./views/dash/Header.js";
 import DashMenu from "./views/dash/Menu.js";
+import LeadsQuadro from "./views/leads/Quadro.js";
 import createBrowserHistory from "history/createBrowserHistory";
 var customHistory = createBrowserHistory();
 
@@ -90,22 +91,22 @@ export default class Navegation extends React.Component {
 
               <PrivateRoute
                 exact
-                path="/resale"
+                path="/leads"
                 store={this.props.store}
                 user={this.props.store.getState().user}
-                component={DashPainel}
+                component={LeadsQuadro}
               />
 
               <PrivateRoute
                 exact
-                path="/members"
+                path="/campanha"
                 store={this.props.store}
                 user={this.props.store.getState().user}
                 component={Membros}
               />
               <PrivateRoute
                 exact
-                path="/apis"
+                path="/config"
                 store={this.props.store}
                 user={this.props.store.getState().user}
                 component={Membros}
@@ -113,7 +114,7 @@ export default class Navegation extends React.Component {
 
               <PrivateRoute
                 exact
-                path="/team"
+                path="/equipe"
                 store={this.props.store}
                 user={this.props.store.getState().user}
                 component={DashPainel}

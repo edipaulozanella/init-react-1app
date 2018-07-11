@@ -41,7 +41,6 @@ class MiniDrawer extends React.Component {
   handleDrawerClose() {
     this.setState({ open: false });
   }
- 
 
   render() {
     const { classes, theme } = this.props;
@@ -66,30 +65,21 @@ class MiniDrawer extends React.Component {
             this.setState({ open: false });
           }}
         >
-          <ListItem>
-            <ListItemIcon>
-              <BeachAccessIcon />
-            </ListItemIcon>
-            <ListItemText primary="Vacation" secondary="July 20, 2014" />
-          </ListItem>
-          <Divider />
           <List component="nav">
-            <NavLink to={"/members"} activeClassName="active">
+            <NavLink to={"/user"} activeClassName="active">
               <ListItem button>
                 <ListItemIcon>
-                  <View style={{ paddingRigth: 1, flex: 0 }}>
-                    <Icon
-                      style={{ color: "#777" }}
-                      fromFontFamily={"Material Design Icons"}
-                      name={"account-multiple"}
-                    />
-                  </View>
+                  <BeachAccessIcon />
                 </ListItemIcon>
-                <ListItemText primary="Usuarios" />
+                <ListItemText
+                  primary={this.props.screenProps.store.getState().user.name}
+                />
               </ListItem>
             </NavLink>
 
-            <NavLink to={"/apis"} activeClassName="active">
+            <Divider />
+
+            <NavLink to={"/leads"} activeClassName="active">
               <ListItem button>
                 <ListItemIcon>
                   <View style={{ paddingRigth: 1, flex: 0 }}>
@@ -100,11 +90,11 @@ class MiniDrawer extends React.Component {
                     />
                   </View>
                 </ListItemIcon>
-                <ListItemText primary="APIs" />
+                <ListItemText primary="Leads" />
               </ListItem>
             </NavLink>
-            
-              <NavLink to={"/payments"} activeClassName="active">
+
+            <NavLink to={"/campanhas"} activeClassName="active">
               <ListItem button>
                 <ListItemIcon>
                   <View style={{ paddingRigth: 1, flex: 0 }}>
@@ -115,12 +105,26 @@ class MiniDrawer extends React.Component {
                     />
                   </View>
                 </ListItemIcon>
-                <ListItemText primary="Pagamentos" />
+                <ListItemText primary="Campanhas" />
               </ListItem>
             </NavLink>
-            
 
-            <NavLink to={"/"} activeClassName="active">
+            <NavLink to={"/equipe"} activeClassName="active">
+              <ListItem button>
+                <ListItemIcon>
+                  <View style={{ paddingRigth: 1, flex: 0 }}>
+                    <Icon
+                      style={{ color: "#777" }}
+                      fromFontFamily={"Material Design Icons"}
+                      name={"account-multiple"}
+                    />
+                  </View>
+                </ListItemIcon>
+                <ListItemText primary="Equipe" />
+              </ListItem>
+            </NavLink>
+
+            <NavLink to={"/config"} activeClassName="active">
               <ListItem button>
                 <ListItemIcon>
                   <View style={{ paddingRigth: 1, flex: 0 }}>
@@ -131,7 +135,7 @@ class MiniDrawer extends React.Component {
                     />
                   </View>
                 </ListItemIcon>
-                <ListItemText primary="Revendas" />
+                <ListItemText primary="Configurações" />
               </ListItem>
             </NavLink>
           </List>

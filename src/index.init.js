@@ -7,8 +7,7 @@ import { Cloud } from "./infra";
 import { View, ImageUpload, Alert } from "react-1app";
 import Home from "./views/Home";
 
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-
+import { MuiThemeProvider } from '@material-ui/core/styles';
 require("moment/locale/pt-br");
 var moment = require("moment");
 moment.locale("pt-br");

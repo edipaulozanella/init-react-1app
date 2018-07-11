@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Content,
   View,
+  Progress,
   Text,
   TextInput,
   StyleSheet
@@ -20,7 +21,6 @@ import {
   CardContent
 } from "react-1app-dashboard";
 import { Redirect } from "react-router-dom";
-
 import * as actions from "../../redux/actions";
 import * as login from "../../redux/worker/login";
 
@@ -41,20 +41,22 @@ export default class Login extends Component {
       if (error) {
         this.setState({ load: false });
       } else {
-        this.props.screenProps.store.dispatch(
-          actions.logar(user, this.props.screenProps.store)
-        );
+        this.entrar(user);
       }
     });
   }
 
+  entrar(user) {
+    this.props.screenProps.store.dispatch(
+      actions.logar(user, this.props.screenProps.store)
+    );
+  }
+
   redirecionar() {
-    // console.log(this.props.location);
     var from =
       this.props.location && this.props.location.state
         ? this.props.location.state.from
         : null;
-    // console.log(from);
     if (!from || from.pathname == "/login") {
       from = { pathname: "/" };
     }
@@ -64,7 +66,15 @@ export default class Login extends Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    login.loadUser(user => {
+      if (!user) {
+        this.setState({ load: false });
+      } else {
+        this.entrar(user);
+      }
+    });
+  }
 
   componentWillUnmount() {}
 
@@ -72,51 +82,56 @@ export default class Login extends Component {
     return (
       <View style={styles.content}>
         {this.redirecionar()}
-        <Card style={styles.fragment1}>
-          <CardHeader style={styles.fragment2} color={"success"}>
-            <Text style={styles.text1}>{"ACESSO PAINEL"}</Text>
-          </CardHeader>
-          <View style={styles.view2}>
-            <TextInput
-              style={styles.textinput}
-              value={this.state.email}
-              onChange={value => {
-                this.state.email = value;
-                this.setState({ item: this.state.item });
-              }}
-              keyboardType={"default"}
-              label={"Login"}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                )
-              }}
-            />
-            <TextInput
-              style={styles.textinput2}
-              value={this.state.password}
-              onChange={value => {
-                this.state.password = value;
-                this.setState({ item: this.state.item });
-              }}
-              keyboardType={"default"}
-              label={"Senha"}
-              onSubmitEditing={() => {
-                this.logar();
-              }}
-            />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                this.logar();
-              }}
-            >
-              <Text style={styles.text}>{"ENTRAR"}</Text>
-            </TouchableOpacity>
-          </View>
-        </Card>
+
+        {!this.state.load ? (
+          <Card style={styles.fragment1}>
+            <CardHeader style={styles.fragment2} color={"success"}>
+              <Text style={styles.text1}>{"ACESSO PAINEL"}</Text>
+            </CardHeader>
+            <View style={styles.view2}>
+              <TextInput
+                style={styles.textinput}
+                value={this.state.email}
+                onChange={value => {
+                  this.state.email = value;
+                  this.setState({ item: this.state.item });
+                }}
+                keyboardType={"default"}
+                label={"Login"}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  )
+                }}
+              />
+              <TextInput
+                style={styles.textinput2}
+                value={this.state.password}
+                onChange={value => {
+                  this.state.password = value;
+                  this.setState({ item: this.state.item });
+                }}
+                keyboardType={"default"}
+                label={"Senha"}
+                onSubmitEditing={() => {
+                  this.logar();
+                }}
+              />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  this.logar();
+                }}
+              >
+                <Text style={styles.text}>{"ENTRAR"}</Text>
+              </TouchableOpacity>
+            </View>
+          </Card>
+        ) : null}
+
+        {this.state.load ? <Progress style={styles.progress} /> : null}
       </View>
     );
   }
@@ -135,7 +150,9 @@ var styles = StyleSheet.create({
     alignSelf: "auto",
     width: 300
   },
-  fragment2: {},
+  fragment2: {
+    alignSelf: "auto"
+  },
   text1: {
     textAlign: "center",
     color: "rgba(255,255,255,1)",
@@ -174,5 +191,9 @@ var styles = StyleSheet.create({
     color: "rgba(139,139,139,1)",
     alignSelf: "stretch",
     fontWeight: "normal"
+  },
+  progress: {
+    width: 35,
+    height: 35
   }
 });

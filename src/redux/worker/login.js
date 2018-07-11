@@ -5,7 +5,8 @@ import md5 from "md5";
 export function login(login, password, callback) {
   password = md5(password);
   Cloud.get("login/email", { email: login, password: password }, (res, error) => {
-    console.log(res);
+    // console.log(res);
+    if (!error && res.id) cacheUser(res);
     if (callback) callback(res, error);
   });
 }
